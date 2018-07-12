@@ -1,3 +1,11 @@
+var trainName = "";
+var destination = "";
+var frequency = "";
+var arrival = "";
+var minsAway = "";
+var trainTime = ""; 
+ 
+ 
  // Initialize Firebase
  var config = {
     apiKey: "AIzaSyDE7rg8ikZyOkf1OXUhjLrzA8NmA2_kvmY",
@@ -10,24 +18,5 @@
   firebase.initializeApp(config);
 
   var database = firebase.database();
-
-  var connectionsRef = database.ref("/connections");
-
-  var connectedRef = database.ref(".info/connected");
-
-  connectedRef.on("value", function(snap) {
-
-    // If they are connected..
-    if (snap.val()) {
-  
-      // Add user to the connections list.
-      var con = connectionsRef.push(true);
-  
-      // Remove user from the connection list when they disconnect.
-      con.onDisconnect().remove();
-    }
-  });
-
-
   
   
