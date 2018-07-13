@@ -1,3 +1,17 @@
 body {
     cursor: pointer;
 }
+
+.jumbotron {
+    background-color: #7e4830;
+    color: white;
+}
+
+.cardOne {
+    margin-top: 25px;
+}
+
+.card-header {
+    background-color: #3679b5;
+    color: white;
+}
