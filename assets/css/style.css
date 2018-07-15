@@ -3,8 +3,12 @@ body {
 }
 
 .jumbotron {
-    background-color: #7e4830;
+    background-color: #3679b5;
     color: white;
+}
+
+.container {
+    opacity: .9;
 }
 
 .cardOne {
@@ -14,4 +18,13 @@ body {
 .card-header {
     background-color: #3679b5;
     color: white;
+}
+
+#backgroundVideo {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -3;
 }

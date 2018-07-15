@@ -25,16 +25,17 @@ $("#btn-add").on("click", function (event) {
 
   trainName = $("#trainName").val().trim();
   destination = $("#destination").val().trim();
-  trainTime = $("#trainTime").val().trim();
+  firstDepart = $("#trainTime").val().trim();
   frequency = $("#frequency").val().trim();
 
 
 
-  database.ref().set({
+  database.ref().push({
     name: trainName,
     destination: destination,
-    time: trainTime,
-    frequency: frequency
+    firstDepart: firstDepart,
+    frequency: frequency,
+    dateAdded: firebase.database.ServerValue.TIMESTAMP
   });
 
   var addTrain = $(".form-control").val().trim();
@@ -56,16 +57,14 @@ $(document).keydown(function (e) {
     trainName = $("#trainName").val().trim();
     destination = $("#destination").val().trim();
     trainTime = $("#trainTime").val().trim();
-    frequency = $("#frequency").val().trim();
+    frequency = $("#frequency").val().trim(); 
   
-  
-  
-    database.ref().set({
+    database.ref().push({
       name: trainName,
       destination: destination,
-      time: trainTime,
+      firstDepart: firstDepart,
       frequency: frequency,
-      arrival: arrival
+      dateAdded: firebase.database.ServerValue.TIMESTAMP
     });
   
     var addTrain = $(".form-control").val().trim();
@@ -78,19 +77,44 @@ $(document).keydown(function (e) {
   }
 });
 
-database.ref().on("value", function (snapshot) {
-  console.log(snapshot.val());
-  console.log(snapshot.val().name);
-  console.log(snapshot.val().destination);
-  console.log(snapshot.val().time);
-  console.log(snapshot.val().frequency);
+database.ref().on("child_added", function (childSnapshot) {
 
-  $(".table-data").append(
-    "<tr><td>" + snapshot.val().name + "</td>" +
-    "<td>" + snapshot.val().destination + "</td>" +
-    "<td>" + snapshot.val().frequency + "</td>" +
-    "<td>" + snapshot.val().time + "</td>" +
-    "<td>" + snapshot.val().arrival + "</td></tr>"
+  // var trainDiff = 0;
+  // var trainRemainder = 0;
+  // var minutesUntilArrival = "";
+  // var nextTrainTime = "";
+
+  // trainDiff = moment().diff(moment.unix(childSnapshot.val().time), minutes);
+  // trainRemainder = trainDiff % frequency;
+  // minutesUntilArrival = frequency - trainRemainder;
+  // nextTrainTime = moment().add(minutesUntilArrival, "m").format("hh:mm A");
+
+  var trainTime = moment(childSnapshot.val().firstDepart, "HH:mm").subtract(1, "years");
+  
+  var timeDiff = moment().diff(moment(trainTime), "minutes");
+
+  var trainFrequency = childSnapshot.val().frequency;
+  
+  var timeAway = timeDiff % trainFrequency;
+  
+  var timeUntilNext = trainFrequency - timeAway;
+
+  
+  var placeholderTime = moment().add(timeUntilNext, "minutes");
+  var arrivalTime = moment(placeholderTime).format("hh:mm");
+
+  console.log(childSnapshot.val());
+  console.log(childSnapshot.val().name);
+  console.log(childSnapshot.val().destination);
+  console.log(childSnapshot.val().time);
+  console.log(childSnapshot.val().frequency);
+
+  $(".table-data").prepend(
+    "<tr><td>" + childSnapshot.val().name + "</td>" +
+    "<td>" + childSnapshot.val().destination + "</td>" +
+    "<td>" + childSnapshot.val().frequency + "</td>" +
+    "<td>" + timeUntilNext + " minutes" + "</td>" +
+    "<td>" + arrivalTime + "</td></tr>"
   );
 
 }, function (errorObject) {

@@ -22,10 +22,19 @@
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/5.2.0/firebase.js"></script>
 
+    <!-- Moment JS -->
+    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+
     <title>Train Scheduler</title>
 </head>
 
 <body>
+    <video autoplay muted loop id="backgroundVideo">
+        <source src="./assets/images/train.mp4" type="video/mp4">
+    </video>
+
+
+
     <div class="container">
         <div class="jumbotron">
             <h1 class="text-center">Train Schedule</h1>
@@ -33,31 +42,13 @@
         </div>
     </div>
 
-    
+
     <!-- Main Body -->
 
     <div class="container">
-        <div class="card card-primary">
-            <div class="card-header">
-                    <h3 class="card-title"><strong>Current Train Schedule</strong></h3>
-            </div>
-            <table class="table">
-                <tr>
-                    <th scope="col">Train Name</th>
-                    <th scope="col">Destination</th>
-                    <th scope="col">Frequency (min)</th>
-                    <th scope="col">Next Arrival</th>
-                    <th scope="col">Minutes Away</th>
-                </tr>
-                <tbody class="table-data"></tbody>
-            </table>
-
-        </div>
-
-
         <!-- input panel -->
 
-        <div class="card cardOne">
+        <div class="card">
             <div class="card-header">
                 <h3 class="panel-title">
                     <strong>Add a New Train</strong>
@@ -87,6 +78,25 @@
                     </div>
                 </form>
             </div>
+
+        </div>
+
+        <div class="card card-primary cardOne">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <strong>Current Train Schedule</strong>
+                </h3>
+            </div>
+            <table class="table">
+                <tr>
+                    <th scope="col">Train Name</th>
+                    <th scope="col">Destination</th>
+                    <th scope="col">Frequency (min)</th>
+                    <th scope="col">Next Arrival</th>
+                    <th scope="col">Arrival Time</th>
+                </tr>
+                <tbody class="table-data"></tbody>
+            </table>
 
         </div>
 
