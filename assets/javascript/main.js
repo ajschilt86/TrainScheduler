@@ -25,26 +25,34 @@ $("#btn-add").on("click", function (event) {
 
   trainName = $("#trainName").val().trim();
   destination = $("#destination").val().trim();
-  firstDepart = $("#trainTime").val().trim();
+  trainTime = $("#trainTime").val().trim();
   frequency = $("#frequency").val().trim();
 
-
+  if (trainName === "") {
+    return false;
+  } else if (destination === "") {
+    return false;
+  } else if (trainTime === "") {
+    return false;
+  } else if (frequency === "") {
+    return false;
+  }
 
   database.ref().push({
     name: trainName,
     destination: destination,
-    firstDepart: firstDepart,
+    trainTime: trainTime,
     frequency: frequency,
     dateAdded: firebase.database.ServerValue.TIMESTAMP
   });
 
   var addTrain = $(".form-control").val().trim();
-    if (addTrain === "") {
-        return false;
-    }
-    else {
-        document.forms["inputForm"].reset();
-    }
+  if (addTrain === "") {
+    return false;
+  }
+  else {
+    document.forms["inputForm"].reset();
+  }
 });
 
 // Enter Event
@@ -57,51 +65,44 @@ $(document).keydown(function (e) {
     trainName = $("#trainName").val().trim();
     destination = $("#destination").val().trim();
     trainTime = $("#trainTime").val().trim();
-    frequency = $("#frequency").val().trim(); 
-  
+    frequency = $("#frequency").val().trim();
+
+    if (trainName === "") {
+      return false;
+    } else if (destination === "") {
+      return false;
+    } else if (trainTime === "") {
+      return false;
+    } else if (frequency === "") {
+      return false;
+    }
+
     database.ref().push({
       name: trainName,
       destination: destination,
-      firstDepart: firstDepart,
+      trainTime: trainTime,
       frequency: frequency,
       dateAdded: firebase.database.ServerValue.TIMESTAMP
     });
-  
+
     var addTrain = $(".form-control").val().trim();
-      if (addTrain === "") {
-          return false;
-      }
-      else {
-          document.forms["inputForm"].reset();
-      }
+    if (addTrain === "") {
+      return false;
+    }
+    else {
+      document.forms["inputForm"].reset();
+    }
   }
 });
 
 database.ref().on("child_added", function (childSnapshot) {
-
-  // var trainDiff = 0;
-  // var trainRemainder = 0;
-  // var minutesUntilArrival = "";
-  // var nextTrainTime = "";
-
-  // trainDiff = moment().diff(moment.unix(childSnapshot.val().time), minutes);
-  // trainRemainder = trainDiff % frequency;
-  // minutesUntilArrival = frequency - trainRemainder;
-  // nextTrainTime = moment().add(minutesUntilArrival, "m").format("hh:mm A");
-
-  var trainTime = moment(childSnapshot.val().firstDepart, "HH:mm").subtract(1, "years");
-  
+  var trainTime = moment(childSnapshot.val().trainTime, "HH:mm").subtract(1, "years");
   var timeDiff = moment().diff(moment(trainTime), "minutes");
-
   var trainFrequency = childSnapshot.val().frequency;
-  
   var timeAway = timeDiff % trainFrequency;
-  
   var timeUntilNext = trainFrequency - timeAway;
-
-  
-  var placeholderTime = moment().add(timeUntilNext, "minutes");
-  var arrivalTime = moment(placeholderTime).format("hh:mm");
+  var time = moment().add(timeUntilNext, "minutes");
+  var arrivalTime = moment(time).format("hh:mm");
 
   console.log(childSnapshot.val());
   console.log(childSnapshot.val().name);
