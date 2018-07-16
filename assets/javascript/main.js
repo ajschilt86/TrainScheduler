@@ -5,7 +5,6 @@ var arrival = "";
 var minsAway = "";
 var trainTime = "";
 
-
 // Initialize Firebase
 var config = {
   apiKey: "AIzaSyDE7rg8ikZyOkf1OXUhjLrzA8NmA2_kvmY",
@@ -19,7 +18,7 @@ firebase.initializeApp(config);
 
 var database = firebase.database();
 
-// Click Event
+// Click Event with Mouse
 $("#btn-add").on("click", function (event) {
   event.preventDefault();
 
@@ -29,12 +28,16 @@ $("#btn-add").on("click", function (event) {
   frequency = $("#frequency").val().trim();
 
   if (trainName === "") {
+    alert("please enter a train name");
     return false;
   } else if (destination === "") {
+    alert("please enter a destination");
     return false;
   } else if (trainTime === "") {
+    alert("please enter a train time");
     return false;
   } else if (frequency === "") {
+    alert("please enter a frequency");
     return false;
   }
 
@@ -55,7 +58,7 @@ $("#btn-add").on("click", function (event) {
   }
 });
 
-// Enter Event
+// Enter Event with Enter Key
 $(document).keydown(function (e) {
   var key_one = 13;
 
@@ -69,15 +72,15 @@ $(document).keydown(function (e) {
 
     if (trainName === "") {
       alert("please enter a train name");
-      return false;      
+      return false;
     } else if (destination === "") {
-      alert("please enter a train name");
+      alert("please enter a destination");
       return false;
     } else if (trainTime === "") {
-      alert("please enter a train name");
+      alert("please enter a train time");
       return false;
     } else if (frequency === "") {
-      alert("please enter a train name");
+      alert("please enter a frequency");
       return false;
     }
 
@@ -107,11 +110,6 @@ database.ref().on("child_added", function (childSnapshot) {
   var timeUntilNext = trainFrequency - timeAway;
   var time = moment().add(timeUntilNext, "minutes");
   var arrivalTime = moment(time).format("HH:mm");
-
-  console.log(childSnapshot.val());
-  console.log(childSnapshot.val().name);
-  console.log(childSnapshot.val().destination);
-  console.log(childSnapshot.val().frequency);
 
   $(".table-data").prepend(
     "<tr><td>" + childSnapshot.val().name + "</td>" +
