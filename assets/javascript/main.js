@@ -68,12 +68,16 @@ $(document).keydown(function (e) {
     frequency = $("#frequency").val().trim();
 
     if (trainName === "") {
-      return false;
+      alert("please enter a train name");
+      return false;      
     } else if (destination === "") {
+      alert("please enter a train name");
       return false;
     } else if (trainTime === "") {
+      alert("please enter a train name");
       return false;
     } else if (frequency === "") {
+      alert("please enter a train name");
       return false;
     }
 
@@ -102,12 +106,11 @@ database.ref().on("child_added", function (childSnapshot) {
   var timeAway = timeDiff % trainFrequency;
   var timeUntilNext = trainFrequency - timeAway;
   var time = moment().add(timeUntilNext, "minutes");
-  var arrivalTime = moment(time).format("hh:mm");
+  var arrivalTime = moment(time).format("HH:mm");
 
   console.log(childSnapshot.val());
   console.log(childSnapshot.val().name);
   console.log(childSnapshot.val().destination);
-  console.log(childSnapshot.val().time);
   console.log(childSnapshot.val().frequency);
 
   $(".table-data").prepend(
