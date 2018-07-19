@@ -18,7 +18,12 @@ firebase.initializeApp(config);
 
 var database = firebase.database();
 
-
+// close the modal if escape is pressed
+$(document).keydown(function (e) { 
+  if (e.keyCode == 27) {
+    $(".modal").hide();
+  }
+});
 //close the modal if the x is clicked on
 $("body").on("click", ".close", function () {
   $(".modal").hide();
@@ -26,8 +31,7 @@ $("body").on("click", ".close", function () {
 //close the modal if the anywhere but the modal is clicked on
 $("body").on("click", function (event) {
   $(".modal").hide();
-})
-
+});
 
 // Click Event with Mouse
 $("#btn-add").on("click", function (event) {
@@ -86,16 +90,20 @@ $(document).keydown(function (e) {
     frequency = $("#frequency").val().trim();
 
     if (trainName === "") {
-      alert("please enter a train name");
-      return false;
+      $(".modal").show();
+      $(".modal-text").text("Train Name was left blank");
+      return false;  
     } else if (destination === "") {
-      alert("please enter a destination");
+      $(".modal").show();
+      $(".modal-text").text("Destination was left blank");
       return false;
     } else if (trainTime === "") {
-      alert("please enter a train time");
+      $(".modal").show();
+      $(".modal-text").text("Train Time was left blank");
       return false;
     } else if (frequency === "") {
-      alert("please enter a frequency");
+      $(".modal").show();
+      $(".modal-text").text("Train frequency was left blank");
       return false;
     }
 
@@ -137,3 +145,14 @@ database.ref().on("child_added", function (childSnapshot) {
 }, function (errorObject) {
   console.log("The read failed: " + errorObject.code);
 });
+
+// Konami Code
+if (window.addEventListener) {
+  var state = 0, konami = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
+  window.addEventListener("keydown", function (e) {
+      if (e.keyCode == konami[state]) state++;
+      else state = 0;
+      if (state == 10)
+      window.location = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+  }, true);
+}
